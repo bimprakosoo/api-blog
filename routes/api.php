@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\TagsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,4 +27,10 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::get('category/{id?}', [CategoryController::class, 'show']);
   Route::put('category/edit/{id}', [CategoryController::class, 'edit']);
   Route::delete('category/delete/{id}', [CategoryController::class, 'delete']);
+  
+  //Route for tag
+  Route::post('tag/add', [TagsController::class, 'store']);
+  Route::get('tag/{id?}', [TagsController::class, 'show']);
+  Route::put('tag/edit/{id}', [TagsController::class, 'edit']);
+  Route::delete('tag/delete/{id}', [TagsController::class, 'delete']);
 });
