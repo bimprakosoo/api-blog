@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('content');
             $table->unsignedBigInteger('category_id');
             $table->timestamps();
-            $table->dateTime('deleted_at');
+            $table->dateTime('deleted_at')->nullable();
             
             $table->foreign('category_id')->references('id')->on('categories');
         });
