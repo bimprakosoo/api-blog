@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -49,9 +50,9 @@ class PostController extends Controller
         }
         
       }
-        $post = $query->with('category', 'tags')->get();
+        $post = $query->with('category', 'tags', 'comments')->get();
         
-        return response()->json(['Post' => $post], 200);
+        return response()->json($post, 200);
       
     } catch (\Exception $e) {
       return response()->json(['message' => 'An error occurred.', 'error' => $e->getMessage()], 500);
@@ -92,6 +93,28 @@ class PostController extends Controller
       $post->delete();
       
       return response()->json(['message' => 'Post Deleted Succesfully'], 200);
+    } catch (\Exception $e) {
+      return response()->json(['message' => 'An error occurred.', 'error' => $e->getMessage()], 500);
+    }
+  }
+  
+  public function comment(Request $request) {
+    try {
+      $validator = Validator::make($request->all() , [
+        'comment' => 'required',
+        'post_id' => 'required',
+      ]);
+      
+      if ($validator->fails()) {
+        return response()->json(['error' => $validator->errors()], 422);
+      }
+      
+      $comment = Comment::create([
+        'post_id' => $request->post_id,
+        'content' => $request->comment,
+      ]);
+      
+      return response()->json(['message' => 'Post added succesfully', 'data' => $comment], 201);
     } catch (\Exception $e) {
       return response()->json(['message' => 'An error occurred.', 'error' => $e->getMessage()], 500);
     }
