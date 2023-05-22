@@ -11,7 +11,7 @@
   <pre><code>git clone https://github.com/bimprakosoo/api-blog.git</code></pre>
 
   <li>Change into the project directory:</li>
-  <pre><code>cd first-project</code></pre>
+  <pre><code>cd api-blog</code></pre>
 
   <li>Install the dependencies using Composer:</li>
   <pre><code>composer install</code></pre>
