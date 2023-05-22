@@ -1,64 +1,63 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+<h1>API Service for Blog</h1>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<p>This project is a web application that provides various APIs for managing blog posts.</p>
 
-## About Laravel
+<h2>Installation</h2>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<p>To get started with the project, follow these steps:</p>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<ol>
+  <li>Clone the repository:</li>
+  <pre><code>git clone https://github.com/bimprakosoo/api-blog.git</code></pre>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+  <li>Change into the project directory:</li>
+  <pre><code>cd first-project</code></pre>
 
-## Learning Laravel
+  <li>Install the dependencies using Composer:</li>
+  <pre><code>composer install</code></pre>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+  <li>Set up the database by creating a new database and configuring the <code>.env</code> file with your database credentials:</li>
+  <pre><code>cp .env.example .env</code></pre>
+  <p>Update the <code>.env</code> file with your database information.</p>
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+  <li>Generate the application key:</li>
+  <pre><code>php artisan key:generate</code></pre>
 
-## Laravel Sponsors
+  <li>Migrate the database:</li>
+  <pre><code>php artisan migrate</code></pre>
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+  <li>Optionally, seed the database with sample data:</li>
+  <pre><code>php artisan db:seed</code></pre>
+</ol>
 
-### Premium Partners
+<h2>APIs</h2>
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+<p>The following APIs are available in this project:</p>
 
-## Contributing
+<ul>
+  <li><strong>POST /api/register</strong>: User login. It accepts the <code>name</code>, <code>email</code> and <code>password</code> parameters and returns a JSON response telling user registered succesfully.</li>
+  <li><strong>POST /api/login</strong>: User login. It accepts the <code>email</code> and <code>password</code> parameters and returns a JSON response containing the access token upon successful authentication.</li>
+  <li><strong>POST /api/logout</strong>: User logout. It requires the <code>Authorization</code> header with the access token to invalidate the token and perform the logout operation.</li>
+  <li><strong>GET /api/post</strong>: Get all blog posts. It returns a JSON response containing a list of all blog posts.</li>
+  <li><strong>GET /api/post/{id}</strong>: Get a specific blog post by ID. It accepts the <code>id</code> parameter in the URL and returns a JSON response with the details of the blog post.</li>
+  <li><strong>POST /api/post/add</strong>: Create a new blog post. It accepts the <code>title</code>, <code>content</code>,<code>category_id</code>, and <code> tags_id</code> parameters in the request body and creates a new blog post.</li>
+  <li><strong>PUT /api/posts/edit/{id}</strong>: Update a blog post. It accepts the <code>id</code> parameter in the URL and the <code>title</code>, <code>content</code>, <code>category_id</code>, and <code> tags_id</code> parameters in the request body to update the specified blog post.</li>
+  <li><strong>DELETE /api/post/delete/{id}</strong>: Delete a blog post. It accepts the <code>id</code> parameter in the URL to delete the specified blog post.</li>
+  <li><strong>POST /api/category/add</strong>: Create a new category. It accepts the <code>name</code> parameter in the request body and creates a new category.</li>
+  <li><strong>GET /api/category</strong>: Get all categories. It returns a JSON response containing a list of all categories.</li>
+  <li><strong>GET /api/category/{id}</strong>: Get a specific category by ID. It accepts the <code>id</code> parameter in the URL and returns a JSON response with the details of the category.</li>
+  <li><strong>PUT /api/category/edit/{id}</strong>: Update a category. It accepts the <code>id</code> parameter in the URL and the <code>name</code> parameters in the request body to update the specified category.</li>
+  <li><strong>DELETE /api/category/delete/{id}</strong>: Delete a category. It accepts the <code>id</code> parameter in the URL to delete the specified category.</li>  
+  <li><strong>POST /api/tag/add</strong>: Create a new tag. It accepts the <code>name</code> parameter in the request body and creates a new tag.</li>
+  <li><strong>GET /api/tag</strong>: Get all tags. It returns a JSON response containing a list of all categories.</li>
+  <li><strong>GET /api/tag/{id}</strong>: Get a specific tag by ID. It accepts the <code>id</code> parameter in the URL and returns a JSON response with the details of the tag.</li>
+  <li><strong>PUT /api/tag/edit/{id}</strong>: Update a tag. It accepts the <code>id</code> parameter in the URL and the <code>name</code> parameters in the request body to update the specified tag.</li>
+  <li><strong>DELETE /api/tag/delete/{id}</strong>: Delete a tag. It accepts the <code>id</code> parameter in the URL to delete the specified tag.</li>  
+  <li><strong>POST /api/post/comments</strong>: Create a new comment. It accepts the <code>post_id</code> and <code>content</code> parameters in the request body to create a new comment for a specific blog post.</li>
+</ul>
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+<p>These APIs can be accessed using HTTP requests with the appropriate headers and parameters.</p>
 
-## Code of Conduct
+<h2>License</h2>
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+<p>This project is licensed under the <a href="LICENSE">MIT License</a>.</p>
