@@ -2,7 +2,7 @@
   <div class="bg-gray-100 flex items-center justify-center h-screen">
     <div class="max-w-md w-full bg-white p-8 rounded shadow">
       <h1 class="text-2xl font-bold mb-4">Login</h1>
-      <form @submit.prevent="login" class="max-w-sm">
+      <form @submit.prevent="handleLogin" class="max-w-sm">
         <div class="mb-4">
           <label for="email" class="block mb-2">Email:</label>
           <input
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import axios from 'axios';
 
 export default {
@@ -38,20 +39,20 @@ export default {
     };
   },
   methods: {
-    login() {
+    ...mapActions('auth', ['login']),
+
+    handleLogin() {
       const credentials = {
         email: this.email,
         password: this.password,
       };
 
-      axios.post('/api/login', credentials)
-        .then(response => {
+      this.login(credentials)
+        .then(() => {
           // Successful login
-          const {token, user} = response.data;
-          // Save the token and user details in local storage or a Vuex store for future use
-          // Redirect the user to another page or perform other necessary actions
+          this.$router.push('/post');
         })
-        .catch(error => {
+        .catch((error) => {
           // Login failed
           if (error.response.status === 401) {
             // Invalid credentials

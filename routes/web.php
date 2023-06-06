@@ -17,11 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', function () {
-    return view('app');
-});
+Route::view('/{any}', 'app')->where('any', '.*');
 
-Route::get('/post', function () {
-    return view('app');
-})->name('post');
 
