@@ -2189,8 +2189,15 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         email: this.email,
         password: this.password
       };
-      this.login(credentials).then(function () {
+      this.login(credentials).then(function (response) {
         // Successful login
+        var _response$data = response.data,
+          token = _response$data.token,
+          user = _response$data.user;
+
+        // Update session data in local storage
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
         _this.$router.push('/post');
       })["catch"](function (error) {
         // Login failed
@@ -2237,6 +2244,15 @@ __webpack_require__.r(__webpack_exports__);
         _this.newestPosts = _this.posts.slice(0, 3);
       })["catch"](function (error) {
         console.log('An error occurred:', error.message);
+      });
+    },
+    logout: function logout() {
+      var _this2 = this;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/logout').then(function () {
+        _this2.user = null;
+        window.location.href = '/post';
+      })["catch"](function (error) {
+        console.log('An error occurred while logging out:', error.message);
       });
     },
     truncateContent: function truncateContent(content) {

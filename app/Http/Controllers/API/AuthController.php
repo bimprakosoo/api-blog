@@ -4,10 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -43,7 +44,12 @@ class AuthController extends Controller
       if (Auth::attempt($credentials)) {
         $user = Auth::user();
         $token = $user->createToken('API_blog')->plainTextToken;
-        return response()->json(['token' => $token, 'user' => $user], 200);
+        $request->session()->put('token', $token);
+        $request->session()->put('user', $user->name);
+        Session::save();
+        return response()->json(['token' => $token, 'user' => $user], 200)->withHeaders([
+          'Refresh' => '0;url=' . url()->current(),
+        ]);
       } else {
         return response()->json(['error' => 'Invalid credentials'], 401);
       }
@@ -63,8 +69,9 @@ class AuthController extends Controller
   public function logout(Request $request) {
     try {
       $request->user()->tokens()->delete();
+      $request->session()->flush();
       
-      return response()->json(['message' => 'Logged out successfully'], 200);
+      return Redirect::to('/post');
     } catch (\Exception $e) {
       return response()->json(['message' => 'An error occurred.', 'error' => $e->getMessage()], 500);
     }

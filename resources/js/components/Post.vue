@@ -59,6 +59,16 @@ export default {
           console.log('An error occurred:', error.message);
         });
     },
+    logout() {
+      axios.post('/api/logout')
+        .then(() => {
+          this.user = null;
+          window.location.href = '/post';
+        })
+        .catch(error => {
+          console.log('An error occurred while logging out:', error.message);
+        });
+    },
     truncateContent(content) {
       if (content.length > 100) {
         return content.slice(0, 100);

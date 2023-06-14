@@ -48,8 +48,14 @@ export default {
       };
 
       this.login(credentials)
-        .then(() => {
+        .then((response) => {
           // Successful login
+          const { token, user } = response.data;
+
+          // Update session data in local storage
+          localStorage.setItem('token', token);
+          localStorage.setItem('user', JSON.stringify(user));
+
           this.$router.push('/post');
         })
         .catch((error) => {
